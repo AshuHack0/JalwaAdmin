@@ -1,0 +1,192 @@
+.manage-users-page {
+  padding: 1.75rem 2rem;
+  max-width: 1400px;
+}
+
+.manage-users-header {
+  margin-bottom: 1.5rem;
+}
+
+.manage-users-header h1 {
+  margin: 0;
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.manage-users-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.manage-users-entries label {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.manage-users-select {
+  padding: 0.375rem 0.625rem;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  background: var(--surface-1);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.manage-users-search {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.manage-users-search-input {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  min-width: 140px;
+  transition: border-color var(--transition-fast);
+}
+
+.manage-users-search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.manage-users-search-input::placeholder {
+  color: var(--text-disabled);
+}
+
+.manage-users-table-wrapper {
+  background: var(--surface-1);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-sm);
+  overflow-x: auto;
+}
+
+.manage-users-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.manage-users-table th,
+.manage-users-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--surface-border-subtle);
+}
+
+.manage-users-table th {
+  background: var(--surface-2);
+  font-weight: var(--font-semibold);
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.manage-users-table tbody tr:hover {
+  background: var(--surface-2);
+}
+
+.manage-users-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.manage-users-wallet {
+  font-weight: var(--font-medium);
+}
+
+.manage-users-empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 2.5rem !important;
+  font-size: var(--text-sm);
+}
+
+.manage-users-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.manage-users-action-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: transparent;
+}
+
+.manage-users-view-btn {
+  color: var(--success);
+  border: 1px solid rgba(5, 150, 105, 0.4);
+}
+
+.manage-users-view-btn:hover {
+  background: var(--success-light);
+}
+
+.manage-users-delete-btn {
+  color: var(--danger);
+  border: 1px solid rgba(220, 38, 38, 0.4);
+}
+
+.manage-users-delete-btn:hover {
+  background: var(--danger-light);
+}
+
+.manage-users-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding: 0.75rem 0;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.manage-users-pagination-btns {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.manage-users-pagination-btns button {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-1);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  font-family: inherit;
+  transition: all var(--transition-fast);
+}
+
+.manage-users-pagination-btns button:hover:not(:disabled) {
+  background: var(--surface-2);
+}
+
+.manage-users-pagination-btns button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.manage-users-page-num {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  padding: 0 0.5rem;
+}

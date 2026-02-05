@@ -1,0 +1,61 @@
+.ifsc-page {
+  padding: 1.75rem 2rem;
+  max-width: 1200px;
+}
+
+.ifsc-header {
+  margin-bottom: 1.5rem;
+}
+
+.ifsc-header h1 {
+  margin: 0;
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.ifsc-table-wrapper {
+  background: var(--surface-1);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.ifsc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.ifsc-table th,
+.ifsc-table td {
+  padding: 0.875rem 1.25rem;
+  text-align: left;
+  border-bottom: 1px solid var(--surface-border-subtle);
+}
+
+.ifsc-table th {
+  background: var(--surface-2);
+  font-weight: var(--font-semibold);
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ifsc-table tbody tr:hover {
+  background: var(--surface-2);
+}
+
+.ifsc-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.ifsc-empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 3.5rem !important;
+  font-size: var(--text-sm);
+}

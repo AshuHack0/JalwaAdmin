@@ -1,0 +1,205 @@
+.gift-code-page {
+  padding: 1.75rem 2rem;
+  max-width: 900px;
+}
+
+.gift-code-title {
+  margin: 0 0 1.5rem;
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.gift-code-generate-section {
+  background: var(--surface-1);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.gift-code-form-header {
+  background: var(--primary);
+  color: #fff;
+  padding: 0.875rem 1.5rem;
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+}
+
+.gift-code-generate-section .gift-code-form {
+  padding: 1.5rem 1.75rem;
+}
+
+.gift-code-history-section {
+  background: var(--surface-1);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.gift-code-section-title {
+  margin: 0 0 1.25rem;
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+}
+
+.gift-code-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.gift-code-field {
+  max-width: 400px;
+}
+
+.gift-code-field label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.gift-code-field input {
+  width: 100%;
+  padding: 0.625rem 1rem;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-base);
+  font-family: inherit;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.gift-code-field input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.gift-code-field input::placeholder {
+  color: var(--text-disabled);
+}
+
+.gift-code-price-wrapper {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.gift-code-price-wrapper:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.gift-code-price-prefix {
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  background: var(--surface-2);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--text-secondary);
+  border-right: 1px solid var(--surface-border);
+}
+
+.gift-code-price-wrapper input {
+  flex: 1;
+  border: none;
+  border-radius: 0;
+}
+
+.gift-code-price-wrapper input:focus {
+  box-shadow: none;
+}
+
+.gift-code-form-actions {
+  margin-top: 0.5rem;
+}
+
+.gift-code-generate-btn {
+  padding: 0.5rem 1.5rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  font-family: inherit;
+}
+
+.gift-code-generate-btn:hover {
+  background: var(--primary-hover);
+}
+
+.gift-code-table-wrapper {
+  overflow-x: auto;
+}
+
+.gift-code-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.gift-code-table th,
+.gift-code-table td {
+  padding: 0.875rem 1.25rem;
+  text-align: left;
+  border-bottom: 1px solid var(--surface-border-subtle);
+}
+
+.gift-code-table th {
+  background: var(--surface-2);
+  font-weight: var(--font-semibold);
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.gift-code-table tbody tr:hover {
+  background: var(--surface-2);
+}
+
+.gift-code-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.gift-code-serial {
+  font-family: monospace;
+  font-weight: var(--font-medium);
+}
+
+.gift-code-empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 2.5rem !important;
+  font-size: var(--text-sm);
+}
+
+.gift-code-delete-btn {
+  padding: 0.35rem 0.75rem;
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: inherit;
+}
+
+.gift-code-delete-btn:hover {
+  background: var(--danger-light);
+}

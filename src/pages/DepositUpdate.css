@@ -1,0 +1,160 @@
+.deposit-update-page {
+  padding: 1.75rem 2rem;
+  max-width: 1400px;
+}
+
+.deposit-header {
+  margin-bottom: 1.5rem;
+}
+
+.deposit-header h1 {
+  margin: 0 0 0.25rem;
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.deposit-subheader {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.deposit-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.deposit-entries label {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.deposit-select {
+  padding: 0.375rem 0.625rem;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  background: var(--surface-1);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.deposit-search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.deposit-search label {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.deposit-search-input {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  margin-left: 0.25rem;
+  transition: border-color var(--transition-fast);
+}
+
+.deposit-search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.deposit-settings-btn {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-1);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.deposit-settings-btn:hover {
+  background: var(--surface-2);
+}
+
+.deposit-table-wrapper {
+  background: var(--surface-1);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.deposit-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.deposit-table th,
+.deposit-table td {
+  padding: 0.875rem 1.25rem;
+  text-align: left;
+  border-bottom: 1px solid var(--surface-border-subtle);
+}
+
+.deposit-table th {
+  background: var(--surface-2);
+  font-weight: var(--font-semibold);
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.deposit-table tbody tr:hover {
+  background: var(--surface-2);
+}
+
+.deposit-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.deposit-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.deposit-btn {
+  padding: 0.375rem 0.875rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition-fast);
+  font-family: inherit;
+}
+
+.approve-btn {
+  background: var(--primary);
+  color: #fff;
+}
+
+.approve-btn:hover {
+  background: var(--primary-hover);
+}
+
+.reject-btn {
+  background: var(--danger);
+  color: #fff;
+}
+
+.reject-btn:hover {
+  background: var(--danger-hover);
+}

@@ -1,0 +1,232 @@
+.wingo-page {
+  padding: 1.75rem 2rem;
+  max-width: 1200px;
+}
+
+.wingo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.75rem;
+  gap: 1rem;
+}
+
+.wingo-header-left h1 {
+  margin: 0 0 0.25rem;
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.wingo-countdown {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-weight: var(--font-medium);
+}
+
+.wingo-header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.wingo-period {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+.wingo-prediction-section,
+.wingo-bet-summary,
+.wingo-live-bets {
+  background: var(--surface-1);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.wingo-prediction-status {
+  font-size: var(--text-sm);
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.wingo-prediction-status .not-set {
+  color: var(--danger);
+  font-weight: var(--font-semibold);
+}
+
+.wingo-prediction-status .set {
+  color: var(--success);
+  font-weight: var(--font-semibold);
+}
+
+.wingo-form-label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--text-secondary);
+  margin: 0 0 0.75rem;
+}
+
+.wingo-prediction-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.wingo-prediction-input {
+  max-width: 320px;
+  padding: 0.625rem 1rem;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-base);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.wingo-prediction-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.wingo-form-buttons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.wingo-btn {
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: 1px solid transparent;
+  font-family: inherit;
+}
+
+.wingo-btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.wingo-btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+.wingo-btn-secondary {
+  background: var(--surface-1);
+  color: var(--text-secondary);
+  border-color: var(--surface-border);
+}
+
+.wingo-btn-secondary:hover {
+  background: var(--surface-2);
+}
+
+.wingo-total-bet {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.wingo-live-bets {
+  overflow-x: auto;
+}
+
+.wingo-live-bets h3 {
+  margin: 0 0 1rem;
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+}
+
+.wingo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.wingo-table th,
+.wingo-table td {
+  padding: 0.75rem 1.25rem;
+  text-align: left;
+  border-bottom: 1px solid var(--surface-border-subtle);
+}
+
+.wingo-table th {
+  background: var(--surface-2);
+  font-weight: var(--font-semibold);
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.wingo-table tbody tr:hover {
+  background: var(--surface-2);
+}
+
+.wingo-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.wingo-result.red {
+  color: var(--danger);
+}
+
+.wingo-result.green {
+  color: var(--success);
+}
+
+.wingo-result:not(.red):not(.green) {
+  color: var(--text-primary);
+}
+
+.wingo-empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 2.5rem !important;
+  font-size: var(--text-sm);
+}
+
+.wingo-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--surface-border-subtle);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.wingo-pagination-btns {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.wingo-pagination-btns button {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-1);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  font-family: inherit;
+  transition: all var(--transition-fast);
+}
+
+.wingo-pagination-btns button:hover:not(:disabled) {
+  background: var(--surface-2);
+}
+
+.wingo-pagination-btns button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

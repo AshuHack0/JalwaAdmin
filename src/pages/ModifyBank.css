@@ -1,0 +1,225 @@
+.modify-bank-page {
+  padding: 1.75rem 2rem;
+  max-width: 600px;
+}
+
+.modify-bank-title {
+  margin: 0 0 1.5rem;
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.modify-bank-section {
+  background: var(--surface-1);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.modify-bank-header {
+  background: var(--primary);
+  color: #fff;
+  padding: 0.875rem 1.5rem;
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+}
+
+.modify-bank-form {
+  padding: 1.5rem 1.75rem;
+}
+
+.modify-bank-field {
+  margin-bottom: 1.25rem;
+}
+
+.modify-bank-field:last-of-type {
+  margin-bottom: 1.5rem;
+}
+
+.modify-bank-field label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.modify-bank-field input {
+  width: 100%;
+  padding: 0.625rem 1rem;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-base);
+  font-family: inherit;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.modify-bank-field input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.modify-bank-field input::placeholder {
+  color: var(--text-disabled);
+}
+
+.modify-bank-error {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--danger);
+  margin-top: 0.25rem;
+}
+
+.modify-bank-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modify-bank-btn {
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  font-family: inherit;
+}
+
+.modify-bank-btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.modify-bank-btn-primary:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.modify-bank-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.modify-bank-btn-secondary {
+  background: var(--surface-2);
+  color: var(--text-secondary);
+  border: 1px solid var(--surface-border);
+}
+
+.modify-bank-btn-secondary:hover {
+  background: var(--surface-border-subtle);
+}
+
+/* Modal */
+.modify-bank-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1.5rem;
+  animation: modalFadeIn 0.2s ease;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modify-bank-modal {
+  background: var(--surface-1);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--surface-border);
+  animation: modalSlideIn 0.25s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modify-bank-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.modify-bank-modal-header h2 {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+}
+
+.modify-bank-modal-close {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.modify-bank-modal-close:hover {
+  background: var(--surface-2);
+  color: var(--text-primary);
+}
+
+.modify-bank-modal-subtitle {
+  padding: 0.75rem 1.5rem;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.modify-bank-modal-subtitle strong {
+  color: var(--text-primary);
+}
+
+.modify-bank-modal-form {
+  padding: 1.5rem 1.5rem;
+}
+
+.modify-bank-modal-form .modify-bank-field {
+  margin-bottom: 1rem;
+}
+
+.modify-bank-modal-form .modify-bank-field:last-of-type {
+  margin-bottom: 1.5rem;
+}
+
+.modify-bank-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
