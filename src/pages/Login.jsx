@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import './Login.css';
 
 export default function Login() {
-  const [username, setUsername] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -19,11 +19,11 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      const success = login(username, password);
-      if (success) {
+      const result = await login(phone, password);
+      if (result.success) {
         navigate(from, { replace: true });
       } else {
-        setError('Please enter username and password');
+        setError(result.message || 'Invalid phone or password');
       }
     } catch {
       setError('Login failed. Please try again.');
@@ -52,14 +52,14 @@ export default function Login() {
               {error && <div className="login-error">{error}</div>}
 
               <div className="login-field">
-                <label htmlFor="username">Username</label>
+                <label htmlFor="phone">Phone</label>
                 <input
-                  id="username"
+                  id="phone"
                   type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Enter your username"
-                  autoComplete="username"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="Enter your phone number"
+                  autoComplete="tel"
                   disabled={isLoading}
                   autoFocus
                 />

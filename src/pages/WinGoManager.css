@@ -1,232 +1,260 @@
-.wingo-page {
-  padding: 1.75rem 2rem;
-  max-width: 1200px;
+.wingo-container {
+  padding: 2.5rem 3rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.wingo-header {
+.wingo-page-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 1.75rem;
-  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
-.wingo-header-left h1 {
+.game-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1e293b;
   margin: 0 0 0.25rem;
-  font-size: var(--text-2xl);
-  font-weight: var(--font-bold);
-  color: var(--text-primary);
-  letter-spacing: -0.02em;
 }
 
-.wingo-countdown {
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-  font-weight: var(--font-medium);
+.game-countdown {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #64748b;
 }
 
-.wingo-header-right {
+.header-center {
+  flex: 1;
   display: flex;
-  align-items: center;
-  gap: 1rem;
+  justify-content: center;
 }
 
-.wingo-period {
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-  font-family: monospace;
-}
-
-.wingo-prediction-section,
-.wingo-bet-summary,
-.wingo-live-bets {
-  background: var(--surface-1);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem 1.75rem;
-  margin-bottom: 1.5rem;
-  border: 1px solid var(--surface-border);
-  box-shadow: var(--shadow-sm);
-}
-
-.wingo-prediction-status {
-  font-size: var(--text-sm);
-  margin-bottom: 0.5rem;
-  color: var(--text-secondary);
-}
-
-.wingo-prediction-status .not-set {
-  color: var(--danger);
-  font-weight: var(--font-semibold);
-}
-
-.wingo-prediction-status .set {
-  color: var(--success);
-  font-weight: var(--font-semibold);
-}
-
-.wingo-form-label {
-  font-size: var(--text-sm);
-  font-weight: var(--font-medium);
-  color: var(--text-secondary);
-  margin: 0 0 0.75rem;
-}
-
-.wingo-prediction-form {
+.prediction-content-wrapper {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.prediction-banner {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #ef4444; /* Red color from image */
+  text-align: center;
+}
+
+.prediction-value {
+  color: #ef4444;
+}
+
+.prediction-not-set {
+  color: #ef4444;
+}
+
+.period-id {
+  font-size: 1rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.prediction-form-section {
+  margin-bottom: 3rem;
+}
+
+.prediction-subtitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #64748b;
+  text-align: center;
+}
+
+.prediction-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.prediction-input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border: 2px solid #3b82f6; /* Blue border from image */
+  border-radius: 8px;
+  font-size: 1.125rem;
+  background: #ffffff;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.prediction-actions {
+  display: flex;
   gap: 1rem;
 }
 
-.wingo-prediction-input {
-  max-width: 320px;
-  padding: 0.625rem 1rem;
-  border: 1px solid var(--surface-border);
-  border-radius: var(--radius-md);
-  font-size: var(--text-base);
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.wingo-prediction-input:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-}
-
-.wingo-form-buttons {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
-.wingo-btn {
-  padding: 0.5rem 1.25rem;
-  border-radius: var(--radius-md);
-  font-size: var(--text-sm);
-  font-weight: var(--font-medium);
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.9375rem;
   cursor: pointer;
-  transition: all var(--transition-fast);
-  border: 1px solid transparent;
-  font-family: inherit;
+  transition: all 0.2s ease;
+  border: none;
 }
 
-.wingo-btn-primary {
-  background: var(--primary);
-  color: #fff;
+.btn-confirm {
+  background: #0a1931; /* Dark navy from image */
+  color: #ffffff;
 }
 
-.wingo-btn-primary:hover {
-  background: var(--primary-hover);
+.btn-confirm:hover {
+  background: #112a52;
 }
 
-.wingo-btn-secondary {
-  background: var(--surface-1);
-  color: var(--text-secondary);
-  border-color: var(--surface-border);
+.btn-unset {
+  background: #ede9fe; /* Light purple/grey from image */
+  color: #334155;
 }
 
-.wingo-btn-secondary:hover {
-  background: var(--surface-2);
+.btn-unset:hover {
+  background: #ddd6fe;
 }
 
-.wingo-total-bet {
-  font-size: var(--text-base);
-  font-weight: var(--font-semibold);
-  color: var(--text-primary);
-  margin-bottom: 1rem;
+.total-bet-amount {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #64748b;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
 }
 
-.wingo-live-bets {
-  overflow-x: auto;
+.stats-section {
+  margin-bottom: 2.5rem;
 }
 
-.wingo-live-bets h3 {
-  margin: 0 0 1rem;
-  font-size: var(--text-lg);
-  font-weight: var(--font-semibold);
-  color: var(--text-primary);
+.table-container {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
-.wingo-table {
+.wingo-data-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: var(--text-sm);
 }
 
-.wingo-table th,
-.wingo-table td {
-  padding: 0.75rem 1.25rem;
+.wingo-data-table th,
+.wingo-data-table td {
+  padding: 1rem 1.5rem;
   text-align: left;
-  border-bottom: 1px solid var(--surface-border-subtle);
+  border-bottom: 1px solid #f1f5f9;
 }
 
-.wingo-table th {
-  background: var(--surface-2);
-  font-weight: var(--font-semibold);
-  color: var(--text-secondary);
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+.wingo-data-table th {
+  background: #ffffff;
+  font-weight: 700;
+  color: #64748b;
+  font-size: 0.875rem;
 }
 
-.wingo-table tbody tr:hover {
-  background: var(--surface-2);
+.wingo-data-table tbody tr:hover {
+  background: #f8fafc;
 }
 
-.wingo-table tbody tr:last-child td {
-  border-bottom: none;
+.result-text {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 500;
+  font-size: 0.8125rem;
 }
 
-.wingo-result.red {
-  color: var(--danger);
+.text-red { color: #ef4444; }
+.text-green { color: #22c55e; }
+.text-violet { color: #a855f7; }
+.text-sep { color: #64748b; }
+
+.live-bets-section {
+  margin-bottom: 2rem;
 }
 
-.wingo-result.green {
-  color: var(--success);
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1.25rem;
 }
 
-.wingo-result:not(.red):not(.green) {
-  color: var(--text-primary);
-}
-
-.wingo-empty {
+.empty-row {
   text-align: center;
-  color: var(--text-muted);
-  padding: 2.5rem !important;
-  font-size: var(--text-sm);
+  padding: 3rem !important;
+  color: #94a3b8;
+  font-style: italic;
 }
 
-.wingo-pagination {
+.table-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--surface-border-subtle);
-  font-size: var(--text-sm);
-  color: var(--text-muted);
+  margin-top: 1.25rem;
 }
 
-.wingo-pagination-btns {
+.showing-info {
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.pagination {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 
-.wingo-pagination-btns button {
-  padding: 0.375rem 0.75rem;
-  border: 1px solid var(--surface-border);
-  border-radius: var(--radius-sm);
-  background: var(--surface-1);
+.pagination-btn {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 0.875rem;
+  font-weight: 500;
   cursor: pointer;
-  font-size: var(--text-sm);
-  font-family: inherit;
-  transition: all var(--transition-fast);
 }
 
-.wingo-pagination-btns button:hover:not(:disabled) {
-  background: var(--surface-2);
+.pagination-btn:hover:not(:disabled) {
+  color: #1e293b;
 }
 
-.wingo-pagination-btns button:disabled {
-  opacity: 0.5;
+.pagination-btn:disabled {
+  opacity: 0.4;
   cursor: not-allowed;
+}
+
+.page-footer {
+  margin-top: 4rem;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: #94a3b8;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 2rem;
+}
+
+.wingo-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  font-size: 1.125rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.wingo-error {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
 }
