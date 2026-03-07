@@ -203,3 +203,20 @@
 .gift-code-delete-btn:hover {
   background: var(--danger-light);
 }
+
+.gift-code-msg {
+  font-size: var(--text-sm);
+  margin: 0 0 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-md);
+}
+
+.gift-code-msg--error {
+  background: rgba(220, 38, 38, 0.08);
+  color: var(--danger);
+}
+
+.gift-code-msg--success {
+  background: rgba(22, 163, 74, 0.08);
+  color: #16a34a;
+}

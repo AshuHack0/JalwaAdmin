@@ -1,52 +1,79 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { fetchDeposits, approveDeposit, rejectDeposit } from '../utils/api';
 import './DepositUpdate.css';
 
-const MOCK_DATA = [
-  { id: 1, userId: 2257855, mobile: '9178360777', refNumber: 'N/A', amount: 500, orderId: '71CLUB202601240128068675', date: '2026-01-24 01:28:06' },
-  { id: 2, userId: 2257856, mobile: '9198765432', refNumber: 'N/A', amount: 200, orderId: '71CLUB202601240128068676', date: '2026-01-24 01:30:15' },
-  { id: 3, userId: 2257857, mobile: '9187654321', refNumber: 'N/A', amount: 10000, orderId: '71CLUB202601240128068677', date: '2026-01-24 01:35:22' },
-  { id: 4, userId: 2257858, mobile: '9176543210', refNumber: 'N/A', amount: 50000, orderId: '71CLUB202601240128068678', date: '2026-01-24 01:40:08' },
-  { id: 5, userId: 2257859, mobile: '9165432109', refNumber: 'N/A', amount: 1000, orderId: '71CLUB202601240128068679', date: '2026-01-24 01:45:33' },
-];
-
 export default function DepositUpdate() {
-  const [entries, setEntries] = useState(10);
+  const [deposits, setDeposits] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [search, setSearch] = useState('');
-  const [payments, setPayments] = useState(MOCK_DATA);
+  const [page, setPage] = useState(1);
+  const [actionLoading, setActionLoading] = useState(null);
+  const limit = 50;
 
-  const handleApprove = (id) => {
-    setPayments((prev) => prev.filter((p) => p.id !== id));
+  const load = useCallback(async (p, s) => {
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetchDeposits({ status: 'pending', page: p, search: s });
+      setDeposits(res.data.deposits);
+      setTotal(res.data.total);
+    } catch (err) {
+      setError(err.message || 'Failed to load deposits');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { load(page, search); }, [page, load]);
+  useEffect(() => {
+    const t = setTimeout(() => { setPage(1); load(1, search); }, 400);
+    return () => clearTimeout(t);
+  }, [search]);
+
+  const handleApprove = async (id) => {
+    setActionLoading(id + '_approve');
+    try {
+      await approveDeposit(id);
+      setDeposits((prev) => prev.filter((d) => d._id !== id));
+      setTotal((t) => t - 1);
+    } catch (err) {
+      setError(err.message || 'Failed to approve');
+    } finally {
+      setActionLoading(null);
+    }
   };
 
-  const handleReject = (id) => {
-    setPayments((prev) => prev.filter((p) => p.id !== id));
+  const handleReject = async (id) => {
+    setActionLoading(id + '_reject');
+    try {
+      await rejectDeposit(id);
+      setDeposits((prev) => prev.filter((d) => d._id !== id));
+      setTotal((t) => t - 1);
+    } catch (err) {
+      setError(err.message || 'Failed to reject');
+    } finally {
+      setActionLoading(null);
+    }
   };
+
+  const totalPages = Math.ceil(total / limit) || 1;
 
   return (
     <div className="deposit-update-page">
       <header className="deposit-header">
         <div>
           <h1>Deposit Update</h1>
-          <p className="deposit-subheader">Payment Update</p>
+          <p className="deposit-subheader">Pending payment approvals — {total} pending</p>
         </div>
       </header>
 
+      {error && <p className="deposit-msg deposit-msg--error">{error}</p>}
+
       <div className="deposit-controls">
         <div className="deposit-entries">
-          <label>
-            Show{' '}
-            <select
-              value={entries}
-              onChange={(e) => setEntries(Number(e.target.value))}
-              className="deposit-select"
-            >
-              <option value={10}>10</option>
-              <option value={25}>25</option>
-              <option value={50}>50</option>
-              <option value={100}>100</option>
-            </select>{' '}
-            entries
-          </label>
+          <span className="deposit-entries-label">{total} pending deposit{total !== 1 ? 's' : ''}</span>
         </div>
         <div className="deposit-search">
           <label>
@@ -56,11 +83,9 @@ export default function DepositUpdate() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="deposit-search-input"
+              placeholder="Phone or Order ID"
             />
           </label>
-          <button type="button" className="deposit-settings-btn" title="Settings">
-            Settings
-          </button>
         </div>
       </div>
 
@@ -69,9 +94,9 @@ export default function DepositUpdate() {
           <thead>
             <tr>
               <th>#</th>
-              <th>User ID</th>
               <th>Mobile</th>
-              <th>Reference Number</th>
+              <th>Nickname</th>
+              <th>Ref. Number</th>
               <th>Amount</th>
               <th>Order ID</th>
               <th>Date</th>
@@ -79,38 +104,54 @@ export default function DepositUpdate() {
             </tr>
           </thead>
           <tbody>
-            {payments.map((row, index) => (
-              <tr key={row.id}>
-                <td>{index + 1}</td>
-                <td>{row.userId}</td>
-                <td>{row.mobile}</td>
-                <td>{row.refNumber}</td>
-                <td>{row.amount}</td>
-                <td>{row.orderId}</td>
-                <td>{row.date}</td>
-                <td>
-                  <div className="deposit-actions">
-                    <button
-                      type="button"
-                      className="deposit-btn approve-btn"
-                      onClick={() => handleApprove(row.id)}
-                    >
-                      Approve Payment
-                    </button>
-                    <button
-                      type="button"
-                      className="deposit-btn reject-btn"
-                      onClick={() => handleReject(row.id)}
-                    >
-                      Reject Payment
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+            {loading ? (
+              <tr><td colSpan="8" className="deposit-empty">Loading...</td></tr>
+            ) : deposits.length === 0 ? (
+              <tr><td colSpan="8" className="deposit-empty">No pending deposits</td></tr>
+            ) : (
+              deposits.map((row, index) => (
+                <tr key={row._id}>
+                  <td>{(page - 1) * limit + index + 1}</td>
+                  <td>{row.user?.phone || '-'}</td>
+                  <td>{row.user?.nickname || '-'}</td>
+                  <td>{row.paymentRef || 'N/A'}</td>
+                  <td className="deposit-amount">₹{row.amount.toLocaleString()}</td>
+                  <td className="deposit-mono">{row.orderId || '-'}</td>
+                  <td>{new Date(row.createdAt).toLocaleString('en-IN')}</td>
+                  <td>
+                    <div className="deposit-actions">
+                      <button
+                        type="button"
+                        className="deposit-btn approve-btn"
+                        onClick={() => handleApprove(row._id)}
+                        disabled={!!actionLoading}
+                      >
+                        {actionLoading === row._id + '_approve' ? '...' : 'Approve'}
+                      </button>
+                      <button
+                        type="button"
+                        className="deposit-btn reject-btn"
+                        onClick={() => handleReject(row._id)}
+                        disabled={!!actionLoading}
+                      >
+                        {actionLoading === row._id + '_reject' ? '...' : 'Reject'}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
+
+      {totalPages > 1 && (
+        <div className="deposit-pagination">
+          <button disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>Previous</button>
+          <span>{page} / {totalPages}</span>
+          <button disabled={page >= totalPages} onClick={() => setPage((p) => p + 1)}>Next</button>
+        </div>
+      )}
     </div>
   );
 }

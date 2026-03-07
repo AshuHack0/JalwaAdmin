@@ -1,0 +1,170 @@
+.wd-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1.5rem;
+  animation: wdFadeIn 0.2s ease;
+}
+
+@keyframes wdFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.wd-modal {
+  background: var(--surface-1);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 420px;
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--surface-border);
+  animation: wdSlideIn 0.2s ease;
+}
+
+@keyframes wdSlideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.wd-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.wd-modal-header h2 {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+}
+
+.wd-modal-close {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.wd-modal-close:hover {
+  background: var(--surface-2);
+  color: var(--text-primary);
+}
+
+.wd-modal-info {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--surface-border);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.wd-modal-info strong {
+  color: var(--text-primary);
+}
+
+.wd-amount {
+  color: #16a34a !important;
+}
+
+.wd-refund-note {
+  margin: 0.75rem 1.5rem 0;
+  font-size: var(--text-xs);
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.08);
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-sm);
+}
+
+.wd-modal-form {
+  padding: 1.25rem 1.5rem;
+}
+
+.wd-modal-field {
+  margin-bottom: 1.25rem;
+}
+
+.wd-modal-field label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.wd-modal-field input {
+  width: 100%;
+  padding: 0.625rem 1rem;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-base);
+  font-family: inherit;
+  transition: border-color var(--transition-fast);
+}
+
+.wd-modal-field input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.wd-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.wd-btn {
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  transition: background var(--transition-fast);
+}
+
+.wd-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.wd-btn-secondary {
+  background: var(--surface-2);
+  color: var(--text-secondary);
+  border: 1px solid var(--surface-border);
+}
+
+.wd-btn-approve {
+  background: var(--primary);
+  color: #fff;
+}
+
+.wd-btn-approve:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.wd-btn-reject {
+  background: var(--danger);
+  color: #fff;
+}
+
+.wd-btn-reject:hover:not(:disabled) {
+  background: var(--danger-hover, #b91c1c);
+}

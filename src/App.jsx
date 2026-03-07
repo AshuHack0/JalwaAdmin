@@ -12,6 +12,10 @@ import AdminPassword from './pages/AdminPassword';
 import ModifyBank from './pages/ModifyBank';
 import GiftCode from './pages/GiftCode';
 import ManageUsers from './pages/ManageUsers';
+import BannedUsers from './pages/BannedUsers';
+import WithdrawApply from './pages/WithdrawApply';
+import WithdrawSent from './pages/WithdrawSent';
+import WithdrawReject from './pages/WithdrawReject';
 import Placeholder from './pages/Placeholder';
 import './App.css';
 
@@ -36,9 +40,9 @@ function AppRoutes() {
         <Route path="wingo/:variant" element={<WinGoManager />} />
         <Route path="finance" element={<Navigate to="/finance/deposit-update" replace />} />
         <Route path="finance/deposit-update" element={<DepositUpdate />} />
-        <Route path="finance/withdraw-apply" element={<Placeholder title="Withdraw Apply" />} />
-        <Route path="finance/withdraw-sent" element={<Placeholder title="Withdraw Sent" />} />
-        <Route path="finance/withdraw-reject" element={<Placeholder title="Withdraw Reject" />} />
+        <Route path="finance/withdraw-apply" element={<WithdrawApply />} />
+        <Route path="finance/withdraw-sent" element={<WithdrawSent />} />
+        <Route path="finance/withdraw-reject" element={<WithdrawReject />} />
         <Route path="support" element={<Navigate to="/support/ifsc-modification" replace />} />
         <Route path="support/deposit-problem" element={<Placeholder title="Deposite Problem" />} />
         <Route path="support/withdrawal-problem" element={<Placeholder title="Withdrawal Problem" />} />
@@ -52,7 +56,7 @@ function AppRoutes() {
         <Route path="manage/modify-bank" element={<ModifyBank />} />
         <Route path="manage/check-ip" element={<Placeholder title="Check Same IP" />} />
         <Route path="manage/maintenance" element={<Placeholder title="Site Maintenance" />} />
-        <Route path="manage/banned-users" element={<Placeholder title="See Banned Users" />} />
+        <Route path="manage/banned-users" element={<BannedUsers />} />
         <Route path="manage/users" element={<ManageUsers />} />
         <Route path="manage/gift-code" element={<GiftCode />} />
       </Route>

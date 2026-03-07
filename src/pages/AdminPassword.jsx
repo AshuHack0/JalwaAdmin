@@ -1,14 +1,27 @@
 import { useState } from 'react';
+import { changeAdminPassword } from '../utils/api';
 import './AdminPassword.css';
 
 export default function AdminPassword() {
-  const [newPassword, setNewPassword] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // In production, send to backend
-    console.log('Update admin password');
-    setNewPassword('');
+    setError('');
+    setSuccess('');
+    setLoading(true);
+    try {
+      await changeAdminPassword(password);
+      setSuccess('Password updated successfully');
+      setPassword('');
+    } catch (err) {
+      setError(err.message || 'Failed to update password');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -19,21 +32,25 @@ export default function AdminPassword() {
         <div className="admin-password-header">Update Admin Password</div>
 
         <form onSubmit={handleSubmit} className="admin-password-form">
+          {error && <p className="admin-password-msg admin-password-msg--error">{error}</p>}
+          {success && <p className="admin-password-msg admin-password-msg--success">{success}</p>}
+
           <div className="admin-password-field">
-            <label htmlFor="newPassword">New Password</label>
+            <label htmlFor="password">Update Password</label>
             <input
-              id="newPassword"
+              id="password"
               type="password"
               placeholder="Enter new password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={loading}
             />
           </div>
 
           <div className="admin-password-actions">
-            <button type="submit" className="admin-password-btn">
-              Update Password
+            <button type="submit" className="admin-password-btn" disabled={loading}>
+              {loading ? 'Updating...' : 'Update Password'}
             </button>
           </div>
         </form>

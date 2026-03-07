@@ -77,3 +77,126 @@ export async function fetchLiveBets(gameKey) {
     console.warn("fetchLiveBets is not implemented on the current backend.");
     return { success: true, data: { bets: [], total: 0 } };
 }
+
+export async function changeAdminPassword(newPassword) {
+    return apiFetch("/auth/password", {
+        method: "PATCH",
+        body: JSON.stringify({ newPassword }),
+    });
+}
+
+// ── Users (Admin) ──
+
+export async function fetchUsers({ phone = "", uid = "", page = 1, limit = 50, isBanned } = {}) {
+    const params = new URLSearchParams({ page, limit });
+    if (phone) params.set("phone", phone);
+    if (uid) params.set("uid", uid);
+    if (isBanned !== undefined) params.set("isBanned", isBanned);
+    return apiFetch(`/users?${params}`);
+}
+
+export async function toggleBanUser(id) {
+    return apiFetch(`/users/${id}/ban`, { method: "PATCH" });
+}
+
+export async function deleteUser(id) {
+    return apiFetch(`/users/${id}`, { method: "DELETE" });
+}
+
+export async function fetchUsersWithBankDetails(phone = "") {
+    const params = new URLSearchParams();
+    if (phone) params.set("phone", phone);
+    return apiFetch(`/users/bank-details?${params}`);
+}
+
+export async function getUserByPhone(phone) {
+    return apiFetch(`/users/by-phone?phone=${encodeURIComponent(phone)}`);
+}
+
+export async function updateBankDetails(id, details) {
+    return apiFetch(`/users/${id}/bank`, {
+        method: "PATCH",
+        body: JSON.stringify(details),
+    });
+}
+
+// ── Deposits (Admin) ──
+
+export async function fetchDeposits({ status = "pending", page = 1, search = "" } = {}) {
+    return apiFetch(`/admin/deposits?status=${status}&page=${page}&search=${encodeURIComponent(search)}`);
+}
+
+export async function approveDeposit(id) {
+    return apiFetch(`/admin/deposits/${id}/approve`, { method: "PATCH" });
+}
+
+export async function rejectDeposit(id) {
+    return apiFetch(`/admin/deposits/${id}/reject`, { method: "PATCH" });
+}
+
+// ── Withdrawals (Admin) ──
+
+export async function fetchWithdrawals({ status = "pending", page = 1, search = "" } = {}) {
+    return apiFetch(`/withdrawals?status=${status}&page=${page}&search=${encodeURIComponent(search)}`);
+}
+
+export async function approveWithdrawal(id, paymentRef = "") {
+    return apiFetch(`/withdrawals/${id}/approve`, {
+        method: "PATCH",
+        body: JSON.stringify({ paymentRef }),
+    });
+}
+
+export async function rejectWithdrawal(id, remark = "") {
+    return apiFetch(`/withdrawals/${id}/reject`, {
+        method: "PATCH",
+        body: JSON.stringify({ remark }),
+    });
+}
+
+// ── Bonus ──
+
+export async function assignBonus({ phone, bonusType, amount, remark }) {
+    return apiFetch("/bonus/assign", {
+        method: "POST",
+        body: JSON.stringify({ phone, bonusType, amount, remark }),
+    });
+}
+
+export async function fetchBonuses(page = 1) {
+    return apiFetch(`/bonus?page=${page}&limit=50`);
+}
+
+// ── Gift Codes ──
+
+export async function generateGiftCodes({ count, maxUses, amount, remark }) {
+    return apiFetch("/gift-codes/generate", {
+        method: "POST",
+        body: JSON.stringify({ count, maxUses, amount, remark }),
+    });
+}
+
+export async function fetchGiftCodes() {
+    return apiFetch("/gift-codes");
+}
+
+export async function deleteGiftCode(id) {
+    return apiFetch(`/gift-codes/${id}`, { method: "DELETE" });
+}
+
+// ── Telegram ──
+
+export async function fetchTelegram() {
+    return apiFetch("/telegram");
+}
+
+export async function upsertTelegram(url) {
+    return apiFetch("/telegram", {
+        method: "PUT",
+        body: JSON.stringify({ url }),
+    });
+}
+
+export async function removeTelegram() {
+    return apiFetch("/telegram", { method: "DELETE" });
+}

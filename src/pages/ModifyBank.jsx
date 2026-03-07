@@ -1,8 +1,13 @@
 import { useState } from 'react';
+import { getUserByPhone, updateBankDetails } from '../utils/api';
 import './ModifyBank.css';
 
 export default function ModifyBank() {
-  const [userId, setUserId] = useState('');
+  const [phone, setPhone] = useState('');
+  const [searching, setSearching] = useState(false);
+  const [foundUser, setFoundUser] = useState(null);
+  const [searchError, setSearchError] = useState('');
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [bankDetails, setBankDetails] = useState({
     bankName: '',
@@ -11,23 +16,39 @@ export default function ModifyBank() {
     confirmAccountNumber: '',
     ifscCode: '',
   });
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState('');
+  const [saveSuccess, setSaveSuccess] = useState('');
 
-  const openModal = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
-    if (userId.trim()) {
-      setIsModalOpen(true);
+    setSearchError('');
+    setFoundUser(null);
+    setSearching(true);
+    try {
+      const res = await getUserByPhone(phone.trim());
+      const user = res.data;
+      setFoundUser(user);
       setBankDetails({
-        bankName: '',
-        accountHolder: '',
-        accountNumber: '',
-        confirmAccountNumber: '',
-        ifscCode: '',
+        bankName: user.bankName || '',
+        accountHolder: user.accountHolder || '',
+        accountNumber: user.accountNumber || '',
+        confirmAccountNumber: user.accountNumber || '',
+        ifscCode: user.ifscCode || '',
       });
+      setIsModalOpen(true);
+      setSaveError('');
+      setSaveSuccess('');
+    } catch (err) {
+      setSearchError(err.message || 'User not found');
+    } finally {
+      setSearching(false);
     }
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setFoundUser(null);
   };
 
   const handleChange = (e) => {
@@ -35,62 +56,86 @@ export default function ModifyBank() {
     setBankDetails((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
+    setSaveError('');
+    setSaveSuccess('');
+
     if (bankDetails.accountNumber !== bankDetails.confirmAccountNumber) {
+      setSaveError('Account numbers do not match');
       return;
     }
-    // In production, send to backend
-    console.log('Update bank for user', userId, bankDetails);
-    closeModal();
+
+    setSaving(true);
+    try {
+      await updateBankDetails(foundUser._id, {
+        bankName: bankDetails.bankName,
+        accountHolder: bankDetails.accountHolder,
+        accountNumber: bankDetails.accountNumber,
+        ifscCode: bankDetails.ifscCode,
+      });
+      setSaveSuccess('Bank details updated successfully');
+    } catch (err) {
+      setSaveError(err.message || 'Failed to update bank details');
+    } finally {
+      setSaving(false);
+    }
   };
+
+  const accountMismatch =
+    bankDetails.accountNumber &&
+    bankDetails.confirmAccountNumber &&
+    bankDetails.accountNumber !== bankDetails.confirmAccountNumber;
 
   return (
     <div className="modify-bank-page">
       <h1 className="modify-bank-title">Modify Bank</h1>
 
       <section className="modify-bank-section">
-        <div className="modify-bank-header">Select User to Update Bank Details</div>
+        <div className="modify-bank-header">Search User by Phone</div>
 
-        <form onSubmit={openModal} className="modify-bank-form">
+        <form onSubmit={handleSearch} className="modify-bank-form">
+          {searchError && (
+            <p className="modify-bank-msg modify-bank-msg--error">{searchError}</p>
+          )}
           <div className="modify-bank-field">
-            <label htmlFor="userId">User ID</label>
+            <label htmlFor="phone">Phone Number</label>
             <input
-              id="userId"
+              id="phone"
               type="text"
-              placeholder="Enter User ID"
-              value={userId}
-              onChange={(e) => setUserId(e.target.value)}
+              placeholder="Enter user phone number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               required
+              disabled={searching}
             />
           </div>
 
           <div className="modify-bank-actions">
-            <button type="submit" className="modify-bank-btn">
-              Update Bank Details
+            <button type="submit" className="modify-bank-btn modify-bank-btn-primary" disabled={searching}>
+              {searching ? 'Searching...' : 'Search & Edit Bank Details'}
             </button>
           </div>
         </form>
       </section>
 
-      {isModalOpen && (
+      {isModalOpen && foundUser && (
         <div className="modify-bank-modal-overlay" onClick={closeModal}>
-          <div
-            className="modify-bank-modal"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="modify-bank-modal" onClick={(e) => e.stopPropagation()}>
             <div className="modify-bank-modal-header">
               <h2>Update Bank Details</h2>
-              <span className="modify-bank-modal-close" onClick={closeModal}>
-                ×
-              </span>
+              <span className="modify-bank-modal-close" onClick={closeModal}>×</span>
             </div>
 
             <div className="modify-bank-modal-subtitle">
-              User ID: <strong>{userId}</strong>
+              <span>Phone: <strong>{foundUser.phone}</strong></span>
+              <span style={{ marginLeft: '1rem' }}>Nickname: <strong>{foundUser.nickname}</strong></span>
             </div>
 
             <form onSubmit={handleSave} className="modify-bank-modal-form">
+              {saveError && <p className="modify-bank-msg modify-bank-msg--error">{saveError}</p>}
+              {saveSuccess && <p className="modify-bank-msg modify-bank-msg--success">{saveSuccess}</p>}
+
               <div className="modify-bank-field">
                 <label htmlFor="bankName">Bank Name</label>
                 <input
@@ -100,6 +145,7 @@ export default function ModifyBank() {
                   placeholder="Enter bank name"
                   value={bankDetails.bankName}
                   onChange={handleChange}
+                  disabled={saving}
                 />
               </div>
 
@@ -112,6 +158,7 @@ export default function ModifyBank() {
                   placeholder="Enter account holder name"
                   value={bankDetails.accountHolder}
                   onChange={handleChange}
+                  disabled={saving}
                 />
               </div>
 
@@ -124,6 +171,7 @@ export default function ModifyBank() {
                   placeholder="Enter account number"
                   value={bankDetails.accountNumber}
                   onChange={handleChange}
+                  disabled={saving}
                 />
               </div>
 
@@ -136,14 +184,11 @@ export default function ModifyBank() {
                   placeholder="Confirm account number"
                   value={bankDetails.confirmAccountNumber}
                   onChange={handleChange}
+                  disabled={saving}
                 />
-                {bankDetails.accountNumber &&
-                  bankDetails.confirmAccountNumber &&
-                  bankDetails.accountNumber !== bankDetails.confirmAccountNumber && (
-                    <span className="modify-bank-error">
-                      Account numbers do not match
-                    </span>
-                  )}
+                {accountMismatch && (
+                  <span className="modify-bank-error">Account numbers do not match</span>
+                )}
               </div>
 
               <div className="modify-bank-field">
@@ -155,6 +200,7 @@ export default function ModifyBank() {
                   placeholder="Enter IFSC code"
                   value={bankDetails.ifscCode}
                   onChange={handleChange}
+                  disabled={saving}
                 />
               </div>
 
@@ -164,16 +210,14 @@ export default function ModifyBank() {
                   className="modify-bank-btn modify-bank-btn-secondary"
                   onClick={closeModal}
                 >
-                  Cancel
+                  Close
                 </button>
                 <button
                   type="submit"
                   className="modify-bank-btn modify-bank-btn-primary"
-                  disabled={
-                    bankDetails.accountNumber !== bankDetails.confirmAccountNumber
-                  }
+                  disabled={saving || !!accountMismatch}
                 >
-                  Save Changes
+                  {saving ? 'Saving...' : 'Save Changes'}
                 </button>
               </div>
             </form>

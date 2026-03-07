@@ -1,71 +1,109 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { fetchTelegram, upsertTelegram, removeTelegram } from '../utils/api';
 import './AddTelegram.css';
 
 export default function AddTelegram() {
-  const [newLink, setNewLink] = useState('');
-  const [telegramLinks, setTelegramLinks] = useState([
-    'https://t.me/+c6R17VZgaYRkMzJl',
-  ]);
+  const [currentUrl, setCurrentUrl] = useState(null);
+  const [inputUrl, setInputUrl] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
-  const handleAdd = (e) => {
+  useEffect(() => {
+    fetchTelegram()
+      .then((res) => {
+        setCurrentUrl(res.data.url);
+        if (res.data.url) setInputUrl(res.data.url);
+      })
+      .catch(() => setError('Failed to load Telegram URL'))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const clearMessages = () => {
+    setError('');
+    setSuccess('');
+  };
+
+  const handleSave = async (e) => {
     e.preventDefault();
-    if (newLink.trim()) {
-      setTelegramLinks((prev) => [...prev, newLink.trim()]);
-      setNewLink('');
+    clearMessages();
+    if (!inputUrl.trim()) {
+      setError('Please enter a Telegram URL');
+      return;
+    }
+    setSaving(true);
+    try {
+      const res = await upsertTelegram(inputUrl.trim());
+      setCurrentUrl(res.data.url);
+      setSuccess('Telegram URL saved successfully');
+    } catch (err) {
+      setError(err.message || 'Failed to save');
+    } finally {
+      setSaving(false);
     }
   };
 
-  const handleRemove = (index) => {
-    setTelegramLinks((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const handleSave = () => {
-    // In production, persist to backend
-    console.log('Saved links:', telegramLinks);
+  const handleRemove = async () => {
+    clearMessages();
+    setSaving(true);
+    try {
+      await removeTelegram();
+      setCurrentUrl(null);
+      setInputUrl('');
+      setSuccess('Telegram URL removed');
+    } catch (err) {
+      setError(err.message || 'Failed to remove');
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
     <div className="add-telegram-page">
       <section className="add-telegram-section">
-        <h2>Add Telegram</h2>
+        <h2>Telegram URL</h2>
 
-        <form onSubmit={handleAdd} className="add-telegram-form">
-          <input
-            type="url"
-            placeholder="Add new telegram"
-            value={newLink}
-            onChange={(e) => setNewLink(e.target.value)}
-            className="add-telegram-input"
-          />
-          <button type="submit" className="add-telegram-btn add-btn">
-            Add
-          </button>
-        </form>
+        {loading ? (
+          <p style={{ color: 'var(--text-muted)' }}>Loading...</p>
+        ) : (
+          <>
+            {error && <p className="telegram-msg telegram-msg--error">{error}</p>}
+            {success && <p className="telegram-msg telegram-msg--success">{success}</p>}
 
-        <div className="telegram-links-list">
-          {telegramLinks.map((link, index) => (
-            <div key={index} className="telegram-link-item">
-              <span className="telegram-link-icon">🔒</span>
-              <span className="telegram-link-url">{link}</span>
-              <button
-                type="button"
-                className="telegram-link-remove"
-                onClick={() => handleRemove(index)}
-                title="Remove"
-              >
-                ×
+            <form onSubmit={handleSave} className="add-telegram-form">
+              <input
+                type="url"
+                placeholder="https://t.me/..."
+                value={inputUrl}
+                onChange={(e) => setInputUrl(e.target.value)}
+                className="add-telegram-input"
+                disabled={saving}
+              />
+              <button type="submit" className="add-telegram-btn add-btn" disabled={saving}>
+                {currentUrl ? 'Update' : 'Save'}
               </button>
-            </div>
-          ))}
-        </div>
+            </form>
 
-        <button
-          type="button"
-          className="add-telegram-btn save-btn"
-          onClick={handleSave}
-        >
-          Save
-        </button>
+            {currentUrl && (
+              <div className="telegram-links-list">
+                <div className="telegram-link-item">
+                  <span className="telegram-link-icon">🔗</span>
+                  <span className="telegram-link-url">{currentUrl}</span>
+                  <button
+                    type="button"
+                    className="telegram-link-remove"
+                    onClick={handleRemove}
+                    disabled={saving}
+                    title="Remove"
+                  >
+                    ×
+                  </button>
+                </div>
+              </div>
+            )}
+          </>
+        )}
       </section>
     </div>
   );
