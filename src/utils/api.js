@@ -63,17 +63,25 @@ export async function fetchGameHistory(gameKey, page = 1) {
     const apiPath = GAME_API_MAP[gameKey];
     return apiFetch(`/WinGo/${apiPath}/history?page=${page}&pageSize=10`);
 }
+export async function fetchNextPrediction(gameKey) {
+    const apiPath = GAME_API_MAP[gameKey];
+    return apiFetch(`/WinGo/${apiPath}/prediction`);
+}
+
 export async function setPrediction(gameKey, number) {
-    console.warn("setPrediction is not implemented on the current backend.");
-    return { success: false, message: "Endpoint not available" };
+    const apiPath = GAME_API_MAP[gameKey];
+    return apiFetch(`/WinGo/${apiPath}/prediction`, {
+        method: "PATCH",
+        body: JSON.stringify({ number }),
+    });
 }
 
 export async function unsetPrediction(gameKey) {
-    console.warn("unsetPrediction is not implemented on the current backend.");
-    return { success: false, message: "Endpoint not available" };
+    const apiPath = GAME_API_MAP[gameKey];
+    return apiFetch(`/WinGo/${apiPath}/prediction`, { method: "DELETE" });
 }
 
-export async function fetchLiveBets(gameKey) {
+export async function fetchLiveBets(_gameKey) {
     console.warn("fetchLiveBets is not implemented on the current backend.");
     return { success: true, data: { bets: [], total: 0 } };
 }

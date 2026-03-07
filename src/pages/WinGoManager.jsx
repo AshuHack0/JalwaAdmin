@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchCurrentRound } from '../utils/api';
+import { fetchCurrentRound, fetchNextPrediction, setPrediction, unsetPrediction } from '../utils/api';
 import './WinGoManager.css';
 
 const WINGO_LABELS = {
@@ -39,6 +39,7 @@ export default function WinGoManager() {
   const [periodId, setPeriodId] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const [predicting, setPredicting] = useState(false);
 
   // Stats placeholders for now
   const totalBetAmount = 0;
@@ -54,7 +55,10 @@ export default function WinGoManager() {
     isFetchingRef.current = true;
     
     try {
-      const roundRes = await fetchCurrentRound(variant);
+      const [roundRes, predRes] = await Promise.all([
+        fetchCurrentRound(variant),
+        fetchNextPrediction(variant).catch(() => null),
+      ]);
 
       if (roundRes.success && roundRes.data) {
         const d = roundRes.data;
@@ -66,6 +70,13 @@ export default function WinGoManager() {
           const remainingMs = Math.max(0, endsAt.getTime() - now.getTime());
           setCountdown(Math.floor(remainingMs / 1000));
         }
+      }
+
+      if (predRes && predRes.success && predRes.data) {
+        const num = predRes.data.outcomeNumber;
+        setNextPrediction(num !== null && num !== undefined ? num : null);
+      }else{
+        setNextPrediction(null);
       }
 
       setError('');
@@ -109,6 +120,47 @@ export default function WinGoManager() {
     }, 1000);
     return () => clearInterval(timer);
   }, [loadData]);
+
+  const handleConfirm = async () => {
+    const num = parseInt(predictionInput, 10);
+    if (isNaN(num) || num < 0 || num > 9) {
+      setError('Please enter a valid number between 0 and 9');
+      return;
+    }
+    setPredicting(true);
+    setError('');
+    try {
+      const res = await setPrediction(variant, num);
+      if (res.success) {
+        setNextPrediction(num);
+        setPredictionInput('');
+      } else {
+        setError(res.message || 'Failed to set prediction');
+      }
+    } catch (err) {
+      setError(err.message || 'Failed to set prediction');
+    } finally {
+      setPredicting(false);
+    }
+  };
+
+  const handleUnset = async () => {
+    setPredicting(true);
+    setError('');
+    try {
+      const res = await unsetPrediction(variant);
+      if (res.success) {
+        setNextPrediction(null);
+        setPredictionInput('');
+      } else {
+        setError(res.message || 'Failed to unset prediction');
+      }
+    } catch (err) {
+      setError(err.message || 'Failed to unset prediction');
+    } finally {
+      setPredicting(false);
+    }
+  };
 
   const formatTime = (sec) => {
     const m = Math.floor(sec / 60);
@@ -162,18 +214,19 @@ export default function WinGoManager() {
             value={predictionInput}
             onChange={(e) => setPredictionInput(e.target.value)}
             className="prediction-input"
-            disabled
+            disabled={predicting}
           />
           <div className="prediction-actions">
-            <button type="button" className="btn btn-confirm" disabled>
-              Confirm Next Prediction
+            <button type="button" className="btn btn-confirm" onClick={handleConfirm} disabled={predicting}>
+              {predicting ? 'Saving...' : 'Confirm Next Prediction'}
             </button>
             <button
               type="button"
               className="btn btn-unset"
-              disabled
+              onClick={handleUnset}
+              disabled={predicting}
             >
-              Unset Prediction
+              {predicting ? 'Saving...' : 'Unset Prediction'}
             </button>
           </div>
         </form>
@@ -197,8 +250,6 @@ export default function WinGoManager() {
               {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => {
                 const colorKey = NUMBER_COLORS[num];
                 const display = getColorDisplay(colorKey);
-                const stat = betStats.find(s => s.number === num) || { bet: 0, userCount: 0, amountToPay: 0 };
-                
                 return (
                   <tr key={num}>
                     <td>
