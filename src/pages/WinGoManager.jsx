@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchCurrentRound, fetchNextPrediction, setPrediction, unsetPrediction } from '../utils/api';
+import { fetchCurrentRound, fetchCurrentPrediction, setPrediction, unsetPrediction } from '../utils/api';
 import './WinGoManager.css';
 
 const WINGO_LABELS = {
@@ -35,15 +35,14 @@ export default function WinGoManager() {
   const { variant } = useParams();
   const [predictionInput, setPredictionInput] = useState('');
   const [nextPrediction, setNextPrediction] = useState(null);
-  const [countdown, setCountdown] = useState(0);
+  const [predictionSetByAdmin, setPredictionSetByAdmin] = useState(false);
+const [countdown, setCountdown] = useState(0);
   const [periodId, setPeriodId] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [predicting, setPredicting] = useState(false);
 
-  // Stats placeholders for now
   const totalBetAmount = 0;
-  const betStats = [];
 
   const label = WINGO_LABELS[variant] || 'WinGo 3 Min';
 
@@ -53,11 +52,11 @@ export default function WinGoManager() {
   const loadData = useCallback(async () => {
     if (isFetchingRef.current) return;
     isFetchingRef.current = true;
-    
+
     try {
       const [roundRes, predRes] = await Promise.all([
         fetchCurrentRound(variant),
-        fetchNextPrediction(variant).catch(() => null),
+        fetchCurrentPrediction(variant).catch(() => null),
       ]);
 
       if (roundRes.success && roundRes.data) {
@@ -75,8 +74,10 @@ export default function WinGoManager() {
       if (predRes && predRes.success && predRes.data) {
         const num = predRes.data.outcomeNumber;
         setNextPrediction(num !== null && num !== undefined ? num : null);
-      }else{
+        setPredictionSetByAdmin(predRes.data.outcomeSetByAdmin === true);
+      } else {
         setNextPrediction(null);
+        setPredictionSetByAdmin(false);
       }
 
       setError('');
@@ -133,6 +134,7 @@ export default function WinGoManager() {
       const res = await setPrediction(variant, num);
       if (res.success) {
         setNextPrediction(num);
+        setPredictionSetByAdmin(true);
         setPredictionInput('');
       } else {
         setError(res.message || 'Failed to set prediction');
@@ -151,6 +153,7 @@ export default function WinGoManager() {
       const res = await unsetPrediction(variant);
       if (res.success) {
         setNextPrediction(null);
+        setPredictionSetByAdmin(false);
         setPredictionInput('');
       } else {
         setError(res.message || 'Failed to unset prediction');
@@ -162,7 +165,7 @@ export default function WinGoManager() {
     }
   };
 
-  const formatTime = (sec) => {
+const formatTime = (sec) => {
     const m = Math.floor(sec / 60);
     const s = sec % 60;
     return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
@@ -192,7 +195,7 @@ export default function WinGoManager() {
         <div className="header-center">
           <div className="prediction-content-wrapper">
             <div className="prediction-banner">
-               Next prediction : <span className={nextPrediction !== null ? 'prediction-value' : 'prediction-not-set'}>
+               Current prediction : <span className={nextPrediction !== null ? 'prediction-value' : 'prediction-not-set'}>
                  {nextPrediction !== null ? nextPrediction : 'NOT SET'}
                </span>
             </div>
@@ -217,14 +220,14 @@ export default function WinGoManager() {
             disabled={predicting}
           />
           <div className="prediction-actions">
-            <button type="button" className="btn btn-confirm" onClick={handleConfirm} disabled={predicting}>
-              {predicting ? 'Saving...' : 'Confirm Next Prediction'}
+            <button type="button" className="btn btn-confirm" onClick={handleConfirm} disabled={predicting || nextPrediction !== null}>
+              {predicting ? 'Saving...' : 'Set Current Prediction'}
             </button>
             <button
               type="button"
               className="btn btn-unset"
               onClick={handleUnset}
-              disabled={predicting}
+              disabled={predicting || !predictionSetByAdmin}
             >
               {predicting ? 'Saving...' : 'Unset Prediction'}
             </button>
@@ -232,7 +235,8 @@ export default function WinGoManager() {
         </form>
       </section>
 
-      <section className="stats-section">
+
+<section className="stats-section">
         <div className="total-bet-amount">TOTAL BET AMOUNT : {totalBetAmount}</div>
         
         <div className="table-container">

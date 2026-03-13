@@ -63,10 +63,11 @@ export async function fetchGameHistory(gameKey, page = 1) {
     const apiPath = GAME_API_MAP[gameKey];
     return apiFetch(`/WinGo/${apiPath}/history?page=${page}&pageSize=10`);
 }
-export async function fetchNextPrediction(gameKey) {
+export async function fetchCurrentPrediction(gameKey) {
     const apiPath = GAME_API_MAP[gameKey];
     return apiFetch(`/WinGo/${apiPath}/prediction`);
 }
+
 
 export async function setPrediction(gameKey, number) {
     const apiPath = GAME_API_MAP[gameKey];
