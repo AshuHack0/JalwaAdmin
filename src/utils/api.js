@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:3000/api/v1";
+const API_BASE_URL = "https://api.indgames.online";
 
 const GAME_API_MAP = {
     "30sec": "WinGo_30S",
