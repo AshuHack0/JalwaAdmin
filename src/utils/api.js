@@ -1,4 +1,6 @@
+// const API_BASE_URL = "http://localhost:4000/api/v1";
 const API_BASE_URL = "https://api.indgames.online/api/v1";
+
 
 const GAME_API_MAP = {
     "30sec": "WinGo_30S",
@@ -208,4 +210,21 @@ export async function upsertTelegram(url) {
 
 export async function removeTelegram() {
     return apiFetch("/telegram", { method: "DELETE" });
+}
+
+// ── Support Tickets (Admin) ──
+
+export async function fetchSupportTickets({ type, status, page = 1, search = "" } = {}) {
+    const params = new URLSearchParams({ page });
+    if (type) params.set("type", type);
+    if (status) params.set("status", status);
+    if (search) params.set("search", search);
+    return apiFetch(`/admin/support-tickets?${params}`);
+}
+
+export async function updateSupportTicketStatus(id, status, remark = "") {
+    return apiFetch(`/admin/support-tickets/${id}/status`, {
+        method: "PATCH",
+        body: JSON.stringify({ status, remark }),
+    });
 }

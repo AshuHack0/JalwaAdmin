@@ -17,6 +17,7 @@ import WithdrawApply from './pages/WithdrawApply';
 import WithdrawSent from './pages/WithdrawSent';
 import WithdrawReject from './pages/WithdrawReject';
 import Placeholder from './pages/Placeholder';
+import SupportTickets from './pages/SupportTickets';
 import './App.css';
 
 function AppRoutes() {
@@ -44,10 +45,10 @@ function AppRoutes() {
         <Route path="finance/withdraw-sent" element={<WithdrawSent />} />
         <Route path="finance/withdraw-reject" element={<WithdrawReject />} />
         <Route path="support" element={<Navigate to="/support/ifsc-modification" replace />} />
-        <Route path="support/deposit-problem" element={<Placeholder title="Deposite Problem" />} />
-        <Route path="support/withdrawal-problem" element={<Placeholder title="Withdrawal Problem" />} />
+        <Route path="support/deposit-problem" element={<SupportTickets title="Deposit Problem" ticketTypes={['deposit-report']} />} />
+        <Route path="support/withdrawal-problem" element={<SupportTickets title="Withdrawal Problem" ticketTypes={['withdrawal-statement']} />} />
         <Route path="support/ifsc-modification" element={<IFSCModification />} />
-        <Route path="support/bank-modification" element={<Placeholder title="Bank Modification" />} />
+        <Route path="support/bank-modification" element={<SupportTickets title="Bank Modification" ticketTypes={['delete-withdraw-bank', 'change-bank-name']} />} />
         <Route path="support/game-problem" element={<Placeholder title="Game Problem" />} />
         <Route path="manage" element={<Navigate to="/manage/telegram" replace />} />
         <Route path="manage/telegram" element={<AddTelegram />} />
