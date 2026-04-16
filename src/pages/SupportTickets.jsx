@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { fetchSupportTickets, updateSupportTicketStatus } from '../utils/api';
+import { BASE_URL } from '../utils/api';
 import './SupportTickets.css';
 
 const STATUS_LABELS = {
@@ -240,17 +241,33 @@ export default function SupportTickets({ title, ticketTypes }) {
               <div className="st-modal-section">
                 <h3>Attachments</h3>
                 <div className="st-files">
-                  {selected.files.map((f, i) => (
-                    <a
-                      key={i}
-                      href={`http://localhost:4000${f.url}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="st-file-link"
-                    >
-                      {f.fieldName} — {f.originalName}
-                    </a>
-                  ))}
+                  {selected.files.map((f, i) => {
+                    const isImage = f.mimetype?.startsWith('image/');
+                    return (
+                      <div key={i} className="st-file-item">
+                        {isImage && (
+                          <a href={`${BASE_URL}${f.url}`} target="_blank" rel="noreferrer">
+                            <img
+                              src={`${BASE_URL}${f.url}`}
+                              alt={f.originalName}
+                              className="st-file-preview"
+                              onError={(e) => { e.target.style.display = 'none'; }}
+                            />
+                          </a>
+                        )}
+                        <div className="st-file-info">
+                          <a
+                            href={`${BASE_URL}${f.url}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="st-file-link"
+                          >
+                            {f.fieldName} — {f.originalName}
+                          </a>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}

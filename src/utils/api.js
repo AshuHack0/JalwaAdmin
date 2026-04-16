@@ -1,5 +1,5 @@
-// const API_BASE_URL = "http://localhost:4000/api/v1";
 const API_BASE_URL = "https://api.indgames.online/api/v1";
+export const BASE_URL = API_BASE_URL.replace("/api/v1", "");
 
 
 const GAME_API_MAP = {
