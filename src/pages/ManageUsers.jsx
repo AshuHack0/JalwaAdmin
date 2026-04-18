@@ -2,6 +2,12 @@ import { useState, useEffect, useCallback } from 'react';
 import { fetchUsers, toggleBanUser, deleteUser } from '../utils/api';
 import './ManageUsers.css';
 
+export function extractUID(id) {
+  if (!id) return "0000000";
+  const digits = id.replace(/\D/g, "");
+  return digits.slice(-7).padStart(7, "0");
+}
+
 export default function ManageUsers() {
   const [entries, setEntries] = useState(50);
   const [searchMobile, setSearchMobile] = useState('');
@@ -96,7 +102,7 @@ export default function ManageUsers() {
           />
           <input
             type="text"
-            placeholder="Search Cust ID"
+            placeholder="Search UID"
             value={searchCustId}
             onChange={(e) => setSearchCustId(e.target.value)}
             className="manage-users-search-input"
@@ -109,7 +115,7 @@ export default function ManageUsers() {
           <thead>
             <tr>
               <th>Mobile</th>
-              <th>Own Code</th>
+              <th>UID</th>
               <th>Cust ID</th>
               <th>Wallet</th>
               <th>Total Deposited</th>
@@ -131,7 +137,7 @@ export default function ManageUsers() {
               users.map((user) => (
                 <tr key={user._id} className={user.isBanned ? 'manage-users-row--banned' : ''}>
                   <td>{user.phone}</td>
-                  <td className="manage-users-mono">{user.uid}</td>
+                  <td className="manage-users-mono">{extractUID(user?._id)}</td>
                   <td className="manage-users-mono">{user.nickname}</td>
                   <td>
                     <span className="manage-users-wallet">₹{user.walletBalance?.toFixed(2)}</span>
