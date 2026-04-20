@@ -8,6 +8,8 @@ export function extractUID(id) {
   return digits.slice(-7).padStart(7, "0");
 }
 
+
+
 export default function ManageUsers() {
   const [entries, setEntries] = useState(50);
   const [searchMobile, setSearchMobile] = useState('');
